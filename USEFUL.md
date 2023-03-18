@@ -2,8 +2,9 @@
 
 ## Github
 
-- [Chinese JS VM (Open-Source, Github)](https://github.com/bramblex/jsjs-vm-demo)
-- [Shape decompiler toolkit (Open-Source, Github)](https://github.com/g2asell2019/shape-security-decompiler-toolkit/tree/master/deobfuscator)
+- [Chinese JS VM](https://github.com/bramblex/jsjs-vm-demo)
+- [Shape decompiler toolkit](https://github.com/g2asell2019/shape-security-decompiler-toolkit/tree/master/deobfuscator)
+- [Kasada decompiler + frontend (opcodes.fr)](https://github.com/OPCODES-GITHUB/dasaka-UI)
 
 ## Videos
 
@@ -13,6 +14,7 @@
 
 - [Kasada VM reversal (opcodes.fr)](https://opcodes.fr/publications/2021-08/kasada-javascript-vm-obfuscation-reverse-part1)
 - [Devirt nike VM (kasada), nullpt.rs](https://www.nullpt.rs/devirtualizing-nike-vm-2)
+- [Building a JS VM](https://jwillbold.com/posts/obfuscation/2019-06-16-the-secret-guide-to-virtualization-obfuscation-in-javascript/)
 
 ## Other
 
