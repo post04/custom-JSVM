@@ -1,0 +1,12 @@
+[ ] create the actual VM
+    - [ ] create parser for text -> opcodes
+    - [ ] create the system for strings (probably just array selection)
+    - [ ] create all the different op codes
+    - [ ] create the vm handler object, contains stack, pointer, etc.
+    - [ ] create actual VM execution function (shape does it nicely, can referr to that)
+
+[ ] create the compiler
+    WIP, for now we can focus on the basics
+    - [ ] handle VariableDeclaration
+    - [ ] handle CallExpression (not wrapped FunctionExpression for now)
+    - [ ] handle CallExpression inputs and outputs
