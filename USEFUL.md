@@ -5,6 +5,7 @@
 - [Chinese JS VM](https://github.com/bramblex/jsjs-vm-demo)
 - [Shape decompiler toolkit](https://github.com/g2asell2019/shape-security-decompiler-toolkit/tree/master/deobfuscator)
 - [Kasada decompiler + frontend (opcodes.fr)](https://github.com/OPCODES-GITHUB/dasaka-UI)
+- [Kechinator JSVM](https://github.com/Kechinator/jsvm)
 
 ## Videos
 
