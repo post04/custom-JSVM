@@ -19,32 +19,32 @@ class VirtualMachine {
     var a, b;
     switch (code) {
       case Opcodes.ADD:
-        a = this.stack.pop();
         b = this.stack.pop();
+        a = this.stack.pop();
         this.stack.push(a + b);
         this.log(`ADD: ${a} + ${b} -> ${a + b}`);
         break;
       case Opcodes.SUB:
-        a = this.stack.pop();
         b = this.stack.pop();
+        a = this.stack.pop();
         this.stack.push(a - b);
         this.log(`SUB: ${a} - ${b} -> ${a - b}`);
         break;
       case Opcodes.MUL:
-        a = this.stack.pop();
         b = this.stack.pop();
+        a = this.stack.pop();
         this.stack.push(a * b);
         this.log(`MUL: ${a} * ${b} -> ${a * b}`);
         break;
       case Opcodes.DIV:
-        a = this.stack.pop();
         b = this.stack.pop();
+        a = this.stack.pop();
         this.stack.push(a / b);
         this.log(`DIV: ${a} / ${b} -> ${a / b}`);
         break;
       case Opcodes.MOD:
-        a = this.stack.pop();
         b = this.stack.pop();
+        a = this.stack.pop();
         this.stack.push(a % b);
         this.log(`MOD: ${a} % ${b} -> ${a % b}`);
         break;
@@ -71,6 +71,7 @@ class VirtualMachine {
       this.log('Instruction Pointer:', this.instructionPointer);
       const operation = this.bytecode[this.instructionPointer++];
       this.handleOpcode(operation);
+      if (this.debug) console.log(' ');
     }
   }
 }
