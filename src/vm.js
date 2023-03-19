@@ -16,40 +16,124 @@ class VirtualMachine {
   }
 
   handleOpcode(code) {
+    const getTwo = () => {
+      return [this.stack.pop(), this.stack.pop()];
+    };
+
     var a, b;
     switch (code) {
+      // Simple arithmitic
       case Opcodes.ADD:
-        b = this.stack.pop();
-        a = this.stack.pop();
+        [b, a] = getTwo();
         this.stack.push(a + b);
         this.log(`ADD: ${a} + ${b} -> ${a + b}`);
         break;
       case Opcodes.SUB:
-        b = this.stack.pop();
-        a = this.stack.pop();
+        [b, a] = getTwo();
         this.stack.push(a - b);
         this.log(`SUB: ${a} - ${b} -> ${a - b}`);
         break;
       case Opcodes.MUL:
-        b = this.stack.pop();
-        a = this.stack.pop();
+        [b, a] = getTwo();
         this.stack.push(a * b);
         this.log(`MUL: ${a} * ${b} -> ${a * b}`);
         break;
       case Opcodes.DIV:
-        b = this.stack.pop();
-        a = this.stack.pop();
+        [b, a] = getTwo();
         this.stack.push(a / b);
         this.log(`DIV: ${a} / ${b} -> ${a / b}`);
         break;
       case Opcodes.MOD:
-        b = this.stack.pop();
-        a = this.stack.pop();
+        [b, a] = getTwo();
         this.stack.push(a % b);
         this.log(`MOD: ${a} % ${b} -> ${a % b}`);
         break;
       case Opcodes.NEG:
+        a = this.stack.pop();
+        this.stack.push(!a);
+        this.log(`NEG: !${a} -> ${!a}`);
         break;
+
+      // Logical
+      case Opcodes.EQUAL:
+        [b, a] = getTwo();
+        this.stack.push(a == b);
+        this.log(`EQUAL: ${a} == ${b} -> ${a == b}`);
+        break;
+      case Opcodes.NOT_EQUAL:
+        [b, a] = getTwo();
+        this.stack.push(a != b);
+        this.log(`NOT_EQUAL: ${a} != ${b} -> ${a != b}`);
+        break;
+      case Opcodes.STRICT_EQUAL:
+        [b, a] = getTwo();
+        this.stack.push(a === b);
+        this.log(`STRICT_EQUAL: ${a} === ${b} -> ${a === b}`);
+        break;
+      case Opcodes.STRICT_NOT_EQUAL:
+        [b, a] = getTwo();
+        this.stack.push(a !== b);
+        this.log(`STRICT_NOT_EQUAL: ${a} !== ${b} -> ${a !== b}`);
+        break;
+      case Opcodes.GREATER_THAN:
+        [b, a] = getTwo();
+        this.stack.push(a > b);
+        this.log(`GREATER_THAN: ${a} > ${b} -> ${a > b}`);
+        break;
+      case Opcodes.LESS_THAN:
+        [b, a] = getTwo();
+        this.stack.push(a < b);
+        this.log(`LESS_THAN: ${a} < ${b} -> ${a < b}`);
+        break;
+      case Opcodes.GREATER_THAN_EQUAL:
+        [b, a] = getTwo();
+        this.stack.push(a >= b);
+        this.log(`GREATER_THAN_EQUAL: ${a} >= ${b} -> ${a >= b}`);
+        break;
+      case Opcodes.LESS_THAN_EQUAL:
+        [b, a] = getTwo();
+        this.stack.push(a <= b);
+        this.log(`LESS_THAN_EQUAL: ${a} <= ${b} -> ${a <= b}`);
+        break;
+
+      // Bitwise
+      case Opcodes.AND:
+        [b, a] = getTwo();
+        this.stack.push(a & b);
+        this.log(`AND: ${a} & ${b} -> ${a & b}`);
+        break;
+      case Opcodes.OR:
+        [b, a] = getTwo();
+        this.stack.push(a | b);
+        this.log(`OR: ${a} | ${b} -> ${a | b}`);
+        break;
+      case Opcodes.XOR:
+        [b, a] = getTwo();
+        this.stack.push(a ^ b);
+        this.log(`XOR: ${a} ^ ${b} -> ${a ^ b}`);
+        break;
+      case Opcodes.NOT:
+        a = this.stack.pop();
+        this.stack.push(~a);
+        this.log(`NOT: ~${a} -> ${~a}`);
+        break;
+      case Opcodes.LEFT_SHIFT:
+        [b, a] = getTwo();
+        this.stack.push(a << b);
+        this.log(`LEFT_SHIFT: ${a} << ${b} -> ${a << b}`);
+        break;
+      case Opcodes.RIGHT_SHIFT:
+        [b, a] = getTwo();
+        this.stack.push(a >> b);
+        this.log(`RIGHT_SHIFT: ${a} >> ${b} -> ${a >> b}`);
+        break;
+      case Opcodes.ZERO_LEFT_SHIFT:
+        [b, a] = getTwo();
+        this.stack.push(a >>> b);
+        this.log(`ZERO_LEFT_SHIFT: ${a} >>> ${b} -> ${a >>> b}`);
+        break;
+
+      // Stack operations
       case Opcodes.PUSH:
         const val = this.bytecode[this.instructionPointer++];
         this.stack.push(val);
