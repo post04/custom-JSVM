@@ -30,5 +30,10 @@ module.exports = {
 
     // Stack operations
     PUSH: c++,
+    JMP: c++,
+    JMP_IF: c++,
+
+    // VM operations
+    HLT: c++,
   },
 };

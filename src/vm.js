@@ -2,10 +2,11 @@
 const { Opcodes } = require('./constants');
 
 class VirtualMachine {
-  constructor(bytecode) {
+  constructor(bytecode, labelMap) {
     this.bytecode = bytecode; // raw bytecode
     this.instructionPointer = 0;
     this.stack = []; // our stack
+    this.labelMap = labelMap; // mapping of label -> position
 
     this.debug = false;
   }
@@ -20,7 +21,8 @@ class VirtualMachine {
       return [this.stack.pop(), this.stack.pop()];
     };
 
-    var a, b;
+    var a, b, val, label, condition, pos;
+
     switch (code) {
       // Simple arithmitic
       case Opcodes.ADD:
@@ -135,9 +137,27 @@ class VirtualMachine {
 
       // Stack operations
       case Opcodes.PUSH:
-        const val = this.bytecode[this.instructionPointer++];
+        val = this.bytecode[this.instructionPointer++];
         this.stack.push(val);
         this.log(`PUSH: ${val}`);
+        break;
+      case Opcodes.JMP:
+        label = this.bytecode[this.instructionPointer++];
+        pos = this.labelMap[label];
+        this.log(`JMP: to: ${label}, pos: ${pos}`);
+        this.instructionPointer = pos;
+        break;
+      case Opcodes.JMP_IF:
+        label = this.bytecode[this.instructionPointer++];
+        condition = this.stack.pop();
+        pos = this.labelMap[label];
+        this.log(`JMP_IF: to: ${label}, if: ${condition}, pos: ${pos}`);
+        if (condition) this.instructionPointer = pos;
+        break;
+
+      // VM operations
+      case Opcodes.HLT:
+        this.instructionPointer = -1;
         break;
       default:
         throw new Error(`No handler for opcode ${code}`);
@@ -149,6 +169,10 @@ class VirtualMachine {
     for (;;) {
       if (this.instructionPointer >= this.bytecode.length) {
         this.log('Done!');
+        break;
+      }
+      if (this.instructionPointer === -1) {
+        this.log('Interrupted!');
         break;
       }
       this.log('Stack:', this.stack);
