@@ -12,7 +12,7 @@ const opcodes = {
 class VirtualMachine {
   constructor(bytecode) {
     this.bytecode = bytecode; // raw bytecode
-    this.programCounter = 0; // current position in bytecode
+    this.instructionPointer = 0;
     this.stack = []; // our stack
   }
 
