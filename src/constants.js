@@ -32,6 +32,9 @@ module.exports = {
     PUSH: c++,
     JMP: c++,
     JMP_IF: c++,
+    PUSH_THIS: c++,
+    MEMBER_EXPRESSION: c++,
+    EXECUTE_FUNCTION: c++,
 
     // VM operations
     HLT: c++,

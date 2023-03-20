@@ -2,11 +2,13 @@
 const { Opcodes } = require('./constants');
 
 class VirtualMachine {
-  constructor(bytecode, labelMap) {
+  constructor(bytecode, labelMap, pointerMap) {
     this.bytecode = bytecode; // raw bytecode
     this.instructionPointer = 0;
     this.stack = []; // our stack
     this.labelMap = labelMap; // mapping of label -> position
+    this.pointerMap = pointerMap
+    this.pointerPos = 0
 
     this.debug = false;
   }
@@ -18,7 +20,7 @@ class VirtualMachine {
 
   handleOpcode(code) {
     const getTwo = () => {
-      return [this.stack.pop(), this.stack.pop()];
+      return [this.stack.pop(), this.stack.pop()].reverse();
     };
 
     var a, b, val, label, condition, pos;
@@ -137,24 +139,43 @@ class VirtualMachine {
 
       // Stack operations
       case Opcodes.PUSH:
-        val = this.bytecode[this.instructionPointer++];
+        this.instructionPointer = this.pointerMap[this.pointerPos++]
+        val = this.bytecode[this.instructionPointer];
         this.stack.push(val);
         this.log(`PUSH: ${val}`);
         break;
       case Opcodes.JMP:
-        label = this.bytecode[this.instructionPointer++];
+        this.instructionPointer = this.pointerMap[this.pointerPos++]
+        label = this.bytecode[this.instructionPointer];
         pos = this.labelMap[label];
         this.log(`JMP: to: ${label}, pos: ${pos}`);
         this.instructionPointer = pos;
         break;
       case Opcodes.JMP_IF:
-        label = this.bytecode[this.instructionPointer++];
+        this.instructionPointer = this.pointerMap[this.pointerPos++]
+        label = this.bytecode[this.instructionPointer];
         condition = this.stack.pop();
         pos = this.labelMap[label];
         this.log(`JMP_IF: to: ${label}, if: ${condition}, pos: ${pos}`);
         if (condition) this.instructionPointer = pos;
         break;
-
+      case Opcodes.PUSH_THIS:
+        // TODO: This may cause conflicting issues, this is meant to make calls to non-defined functions like `console.log` work properly.
+        this.stack.push(globalThis)
+        this.log("PUSH_THIS")
+      break;
+      case Opcodes.MEMBER_EXPRESSION:
+        // ! get previous 2 things on the stack (eg: this, "console")
+        [b, a] = getTwo();
+        // ! push to the stack their member expression (eg: this["console"])
+        this.stack.push(b[a]);
+        this.log(`MEMBER_EXPRESSION: ${b}, ${a}`);
+      break;
+      case Opcodes.EXECUTE_FUNCTION:
+        // ! get previous 2 things on the stack (eg: this["console"]["log"], "test")
+        [b, a] = getTwo();
+        this.stack.push(b(a));
+        this.log(`EXECUTE_FUNCTION: ${b}, ${a}`);
       // VM operations
       case Opcodes.HLT:
         this.instructionPointer = -1;
@@ -177,7 +198,8 @@ class VirtualMachine {
       }
       this.log('Stack:', this.stack);
       this.log('Instruction Pointer:', this.instructionPointer);
-      const operation = this.bytecode[this.instructionPointer++];
+      this.instructionPointer = this.pointerMap[this.pointerPos++]
+      const operation = this.bytecode[this.instructionPointer];
       this.handleOpcode(operation);
       if (this.debug) console.log(' ');
     }
