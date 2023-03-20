@@ -16,6 +16,7 @@
 - [Kasada VM reversal (opcodes.fr)](https://opcodes.fr/publications/2021-08/kasada-javascript-vm-obfuscation-reverse-part1)
 - [Devirt nike VM (kasada), nullpt.rs](https://www.nullpt.rs/devirtualizing-nike-vm-2)
 - [Building a JS VM](https://jwillbold.com/posts/obfuscation/2019-06-16-the-secret-guide-to-virtualization-obfuscation-in-javascript/)
+- [Stack based VM (rust)](https://dev.to/jimsy/building-a-stack-based-virtual-machine-part-6---function-calls-2md5)
 
 ## Other
 
