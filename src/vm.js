@@ -216,12 +216,18 @@ class VirtualMachine {
         this.log('Done!');
         break;
       }
+      if (this.pointerPos >= this.pointerMap.length) {
+        this.log('Done! (I think)');
+        break;
+      }
       if (this.instructionPointer === -1) {
         this.log('Interrupted!');
         break;
       }
       this.log('Stack:', this.stack);
-      this.log('Instruction Pointer:', this.instructionPointer);
+      // this.log(`Instruction Pointer: ${this.instructionPointer}`);
+      // this.log(`pointer position: ${this.pointerPos}`);
+
       this.instructionPointer = this.pointerMap[this.pointerPos++];
       const operation = this.bytecode[this.instructionPointer];
       this.handleOpcode(operation);
