@@ -68,6 +68,7 @@ module.exports =
 
     // ! we need to return the instruction to execute for the param
     // TODO: support multiple arguments (needs array op code)
+    // TODO: fix error happening when no argument given for call (sample 1)
     order.push(parseInt(node.arguments[0].value.split('_')[1]));
     order.push(order[order.length - 1] + 1);
 

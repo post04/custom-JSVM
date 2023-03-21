@@ -21,6 +21,17 @@ const AST = parser.parse(src, {});
 let bytecode = [];
 let order = [];
 
+const handleStringLiterals = {
+    StringLiteral(path) {
+        if(path.parentPath.node.type != "VariableDeclarator") {
+            var cache = path.node.value
+            path.node.value = "BYTECODE_" + bytecode.length
+            // path.replaceWith(t.stringLiteral("BYTECODE_" + bytecode.length))
+            bytecode.push(...[Opcodes["PUSH"], cache])
+        }
+    }
+}
+
 const handleProgram = {
   Program(path) {
     let { node } = path;
@@ -56,6 +67,8 @@ const handleProgram = {
   },
 };
 
+traverse(AST, handleStringLiterals);
+console.log("Done transforming string literals.")
 traverse(AST, handleProgram);
 console.log('Bytecode:', bytecode);
 console.log('Order:', order);
@@ -63,7 +76,6 @@ console.log('Order:', order);
 // ! VM
 const VirtualMachine = require('../vm');
 // ! VM
-// this["console"]["log"]("test")
 const vm = new VirtualMachine(bytecode, [], order);
 vm.debug = true;
 vm.run();
