@@ -2,22 +2,14 @@ const VirtualMachine = require('./vm');
 const parser = require('./parser');
 
 const { program, labelMap } = parser(`
-PUSH 12   
-PUSH 3   
-DIV     ; 12 / 3 -> 4
-PUSH 10
-MUL     ; 4 * 10 -> 40
-PUSH 39
-JMP Label1
-HLT
-@Label1
-GREATER_THAN ; 40 > 39 -> true 
-JMP_IF Label2
-HLT
-@Label2
+PUSH_ARRAY
+PUSH 0x10
+PUSH_TO_ARRAY
+PUSH 0x10
+PUSH_TO_ARRAY
 `);
 console.log(program, labelMap);
-const vm = new VirtualMachine(program, labelMap);
+const vm = new VirtualMachine(program, labelMap, [0, 1, 2, 3, 4, 5, 6]);
 vm.debug = true;
 vm.run();
 console.log('Stack:', vm.stack);

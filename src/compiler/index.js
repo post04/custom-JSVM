@@ -13,8 +13,8 @@ const { Opcodes } = require('../constants');
 // ! opcodes
 
 // ! handles
-const variableDeclarator = require('./handlers/variableDeclarator');
-const callExpression = require('./handlers/callExpression');
+const handleVariableDeclarator = require('./handlers/variableDeclarator');
+const handleCallExpression = require('./handlers/callExpression');
 // ! handles
 
 const AST = parser.parse(src, {});
@@ -40,11 +40,7 @@ const handleProgram = {
       switch (node.type) {
         case 'VariableDeclaration':
           node.declarations.forEach((node) => {
-            [o, bytes] = variableDeclarator.createBytecode(
-              path,
-              node,
-              bytecode.length
-            );
+            [o, bytes] = handleVariableDeclarator(path, node, bytecode.length);
             order.push(...o);
             bytecode.push(...bytes);
           });
@@ -55,7 +51,7 @@ const handleProgram = {
             console.log('unsupported expression:', node.expression.type);
             exit(999);
           }
-          [o, bytes] = callExpression.createBytecode(
+          [o, bytes] = handleCallExpression(
             path,
             node.expression,
             bytecode.length

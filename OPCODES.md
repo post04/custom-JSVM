@@ -38,8 +38,8 @@
 
 - `PUSH_THIS` Pushes the `window` (or global) keyword onto the stack
 - `MEMBER_EXPRESSION` Gets the last 2 from the stack, pushes the result of `a[b]` to the stack
-- `EMPTY_ARRAY` Creates an empty array and pushes it to the stack
-- `EMPTY_OBJECT` Creates an empty object and pushes it to the stack
+- `PUSH_ARRAY` Creates an empty array and pushes it to the stack
+- `PUSH_OBJECT` Creates an empty object and pushes it to the stack
 - `PUSH_TO_ARRAY` Gets the top element from the stack, and pushes it to the second element on the stack
 
 **Other (for now)**

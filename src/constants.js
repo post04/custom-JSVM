@@ -36,8 +36,8 @@ module.exports = {
     // Object operations
     PUSH_THIS: c++,
     MEMBER_EXPRESSION: c++,
-    EMPTY_ARRAY: c++,
-    EMPTY_OBJECT: c++,
+    PUSH_ARRAY: c++,
+    PUSH_OBJECT: c++,
     PUSH_TO_ARRAY: c++,
 
     // Other (for now)

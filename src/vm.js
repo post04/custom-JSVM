@@ -173,17 +173,20 @@ class VirtualMachine {
         this.stack.push(b[a]);
         this.log(`MEMBER_EXPRESSION: ${b}[${a}]`);
         break;
-      case Opcodes.EMPTY_ARRAY:
+      case Opcodes.PUSH_ARRAY:
         this.stack.push([]);
         this.log('EMPTY_ARRAY');
-      case Opcodes.EMPTY_OBJECT:
+        break;
+      case Opcodes.PUSH_OBJECT:
         this.stack.push({});
         this.log('EMPTY_OBJECT');
+        break;
       case Opcodes.PUSH_TO_ARRAY:
         [b, a] = getTwo();
+        this.log(`PUSH_TO_ARRAY: ${JSON.stringify(b)}.push(${a})`);
         b.push(a);
         this.stack.push(b);
-        this.log(`PUSH_TO_ARRAY: ${a}.push(${b})`);
+        break;
 
       // Other
       case Opcodes.EXECUTE_FUNCTION:
@@ -193,12 +196,15 @@ class VirtualMachine {
         else this.stack.push(b(...a));
 
         this.log(`EXECUTE_FUNCTION: ${b}(${a})`);
+        break;
 
       // VM operations
       case Opcodes.HLT:
         this.instructionPointer = -1;
         break;
+
       default:
+        // console.log(code, this);
         throw new Error(`No handler for opcode ${code}`);
     }
   }
@@ -210,12 +216,18 @@ class VirtualMachine {
         this.log('Done!');
         break;
       }
+      if (this.pointerPos >= this.pointerMap.length) {
+        this.log('Done! (I think)');
+        break;
+      }
       if (this.instructionPointer === -1) {
         this.log('Interrupted!');
         break;
       }
       this.log('Stack:', this.stack);
-      this.log('Instruction Pointer:', this.instructionPointer);
+      // this.log(`Instruction Pointer: ${this.instructionPointer}`);
+      // this.log(`pointer position: ${this.pointerPos}`);
+
       this.instructionPointer = this.pointerMap[this.pointerPos++];
       const operation = this.bytecode[this.instructionPointer];
       this.handleOpcode(operation);

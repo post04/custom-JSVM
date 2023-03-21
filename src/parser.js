@@ -39,7 +39,7 @@ module.exports = (asm) => {
 
     // Push opcode and args to program. Parse each arg as an int, if posible
     const parsed = args.map((a) => tryParseInt(a.trim()));
-    // console.log(line, '\t=>\t', parsed);
+    console.log(line, '\t=>\t', Opcodes[opcode], ...parsed);
     program.push(Opcodes[opcode], ...parsed);
   });
 
