@@ -7,6 +7,19 @@
 
 [ ] create the compiler
     WIP, for now we can focus on the basics
-    - [ ] handle VariableDeclaration
-    - [ ] handle CallExpression (not wrapped FunctionExpression for now)
-    - [ ] handle CallExpression inputs and outputs
+    - [x] handle VariableDeclaration
+    - [x] handle CallExpression (not wrapped FunctionExpression for now)
+    - [-] handle CallExpression inputs and outputs
+        - [ ] make call expression inputs make use of an array so if can have infinite inputs or 0 inputs, currently it only supports 1 input and it has to be a string (i think).
+    - [ ] support numeric literals as callexpress inputs when not proxied thru a variable VariableDeclaration
+    - [ ] handle arrays
+    - [ ] for loops
+    - [ ] objects
+    - [ ] custom functions (would be a set of instructions and pointer map pushed into the stack and used in .run()?)
+    - [ ] if else statements
+    - [ ] all different types of math
+
+    Code optimizations:
+    - [ ] Make the compiler a class
+    - [ ] Make a function for adding bytes
+    - [ ] Make a function for adding pointers
