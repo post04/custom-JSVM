@@ -1,11 +1,11 @@
 const VirtualMachine = require('./vm');
-const parser = require('./parser');
+const parser = require('./vm/parser');
 
 const { program, labelMap } = parser(`
 PUSH_ARRAY
 PUSH 0x10
 PUSH_TO_ARRAY
-PUSH 0x10
+PUSH 0x15
 PUSH_TO_ARRAY
 `);
 console.log(program, labelMap);

@@ -1,7 +1,7 @@
 // Taken from https://github.com/Kechinator/jsvm/blob/9d735425197a60fbd88eb009da085fb9540f0ff9/vm/vm.js#L16
-const { Opcodes } = require('./constants');
+const { Opcodes } = require('../constants');
 
-class VirtualMachine {
+module.exports = class VirtualMachine {
   constructor(bytecode, labelMap, pointerMap) {
     this.bytecode = bytecode; // raw bytecode
     this.instructionPointer = 0;
@@ -214,10 +214,12 @@ class VirtualMachine {
     for (;;) {
       if (this.instructionPointer >= this.bytecode.length) {
         this.log('Done!');
+        this.log(this.stack);
         break;
       }
       if (this.pointerPos >= this.pointerMap.length) {
         this.log('Done! (I think)');
+        this.log(this.stack);
         break;
       }
       if (this.instructionPointer === -1) {
@@ -234,6 +236,4 @@ class VirtualMachine {
       if (this.debug) console.log(' ');
     }
   }
-}
-
-module.exports = VirtualMachine;
+};

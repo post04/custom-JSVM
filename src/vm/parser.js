@@ -1,4 +1,4 @@
-const { Opcodes } = require('./constants');
+const { Opcodes } = require('../constants');
 
 const tryParseInt = (arg) => {
   try {
