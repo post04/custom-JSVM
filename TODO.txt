@@ -20,6 +20,6 @@
     - [ ] all different types of math
 
     Code optimizations:
-    - [ ] Make the compiler a class
+    - [X] Make the compiler a class
     - [ ] Make a function for adding bytes
     - [ ] Make a function for adding pointers

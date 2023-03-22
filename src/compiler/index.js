@@ -74,13 +74,6 @@ const handleStringLiterals = (ast, bytecode) => {
   return bytecode;
 };
 
-// ! VM
-// const VirtualMachine = require('../vm/vm');
-// // ! VM
-// const vm = new VirtualMachine(bytecode, [], order);
-// vm.debug = true;
-// vm.run();
-
 module.exports = class Compiler {
   constructor() {}
 
@@ -91,7 +84,6 @@ module.exports = class Compiler {
     return { bytecode, order };
   }
   compileFromFile(srcPath) {
-    // './samples/3.js'
     const src = readFileSync(srcPath, 'utf-8');
     return this.compileFromString(src);
   }
