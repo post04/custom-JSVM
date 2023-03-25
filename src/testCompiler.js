@@ -3,7 +3,7 @@ const VirtualMachine = require('./vm');
 
 const code = `
 let a = "Hello"
-console.log(a, 'World');
+console.log(a, 'World', 3);
 `;
 
 const compiler = new Compiler();

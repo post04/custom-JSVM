@@ -72,7 +72,10 @@ module.exports =
     order.push(index++);
     node.arguments.forEach((arg) => {
       console.log(arg);
-      if (arg.value.startsWith('BYTECODE_')) {
+      const isBytecodeExpression =
+        arg.type === 'StringLiteral' && arg.value.startsWith('BYTECODE_');
+
+      if (isBytecodeExpression) {
         const bytecodePos = parseInt(arg.value.split('_')[1]);
         order.push(bytecodePos);
         order.push(order[order.length - 1] + 1);
