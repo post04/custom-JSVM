@@ -15,7 +15,7 @@ module.exports = class VirtualMachine {
 
   log(...a) {
     if (!this.debug) return;
-    console.log('[DEBUG]', ...a);
+    console.log('[DEBUG | VM]', ...a);
   }
 
   handleOpcode(code) {
@@ -192,8 +192,8 @@ module.exports = class VirtualMachine {
       case Opcodes.EXECUTE_FUNCTION:
         // ! get previous 2 things on the stack (eg: this["console"]["log"], "test")
         [b, a] = getTwo();
-        if (typeof a !== 'Array') this.stack.push(b(a));
-        else this.stack.push(b(...a));
+        if (a.hasOwnProperty('length')) this.stack.push(b(...a));
+        else this.stack.push(b(a));
 
         this.log(`EXECUTE_FUNCTION: ${b}(${a})`);
         break;

@@ -67,10 +67,25 @@ module.exports =
     // ! at this point, we assume the argument(s) supplied in the function are already in the byte code
 
     // ! we need to return the instruction to execute for the param
-    // TODO: support multiple arguments (needs array op code)
-    // TODO: fix error happening when no argument given for call (sample 1)
-    order.push(parseInt(node.arguments[0].value.split('_')[1]));
-    order.push(order[order.length - 1] + 1);
+    // ! Push empty array (for args)
+    bytes.push(Opcodes.PUSH_ARRAY);
+    order.push(index++);
+    node.arguments.forEach((arg) => {
+      console.log(arg);
+      if (arg.value.startsWith('BYTECODE_')) {
+        const bytecodePos = parseInt(arg.value.split('_')[1]);
+        order.push(bytecodePos);
+        order.push(order[order.length - 1] + 1);
+      } else {
+        bytes.push(Opcodes.PUSH);
+        order.push(index++);
+        bytes.push(arg.value);
+        order.push(index++);
+      }
+
+      bytes.push(Opcodes.PUSH_TO_ARRAY);
+      order.push(index++);
+    });
 
     // ! now we tell it to run the function
     bytes.push(...[Opcodes['EXECUTE_FUNCTION']]);
