@@ -1,26 +1,14 @@
 const t = require('@babel/types');
 
 // ! opcodes
-const { Opcodes } = require('../../constants');
+const {
+  Opcodes
+} = require('../../constants');
 // ! opcodes
 
-// function checkDefined(type, path, node) {
-//     if(type == "MemberExpression") {
-//         return !!path.scope.getBinding(node.callee.object.name)
-//     }
-//     if(type == "Identifier") {
-//         return !!path.scope.getBinding(node.callee.name)
-//     }
-//     console.log("????????")
-//     exit("999")
-// }
 
 module.exports =
-  // path = ExpressionStatement path
-  // node = CallExpression node
-  // index = current index in the byte code
-  // returns the byte code for this operation
-  (path, node, index) => {
+  (path, node, index, handler) => {
     var bytes = [];
     var order = [];
 
@@ -71,7 +59,8 @@ module.exports =
     bytes.push(Opcodes.PUSH_ARRAY);
     order.push(index++);
     node.arguments.forEach((arg) => {
-      console.log(arg);
+      console.log('[CallEx arg]', arg.value);
+
       const isBytecodeExpression =
         arg.type === 'StringLiteral' && arg.value.startsWith('BYTECODE_');
 
@@ -79,11 +68,13 @@ module.exports =
         const bytecodePos = parseInt(arg.value.split('_')[1]);
         order.push(bytecodePos);
         order.push(order[order.length - 1] + 1);
-      } else {
+      } else if (arg.value) {
         bytes.push(Opcodes.PUSH);
         order.push(index++);
         bytes.push(arg.value);
         order.push(index++);
+      } else {
+        throw new Error(`Unhandled function argument! ${arg.type}`)
       }
 
       bytes.push(Opcodes.PUSH_TO_ARRAY);

@@ -192,10 +192,10 @@ module.exports = class VirtualMachine {
       case Opcodes.EXECUTE_FUNCTION:
         // ! get previous 2 things on the stack (eg: this["console"]["log"], "test")
         [b, a] = getTwo();
+        this.log(`EXECUTE_FUNCTION: ${b}(${a})`);
         if (a.hasOwnProperty('length')) this.stack.push(b(...a));
         else this.stack.push(b(a));
 
-        this.log(`EXECUTE_FUNCTION: ${b}(${a})`);
         break;
 
       // VM operations
@@ -226,7 +226,7 @@ module.exports = class VirtualMachine {
         this.log('Interrupted!');
         break;
       }
-      this.log('Stack:', this.stack);
+      // this.log('Stack:', this.stack);
       // this.log(`Instruction Pointer: ${this.instructionPointer}`);
       // this.log(`pointer position: ${this.pointerPos}`);
 
